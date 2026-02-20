@@ -34,6 +34,6 @@ for site in "${domains[@]}";
   fi
 
 # запишем в .csv формате
-echo "$my_params,$rtt_params" >> res.csv
+echo "$my_params,$rtt_params" >> result.csv
 
 done
