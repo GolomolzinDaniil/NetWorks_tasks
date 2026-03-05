@@ -1,19 +1,13 @@
-import csv
-
 from playwright.sync_api import sync_playwright
 
 
-
-def parsing(num_page: int = 3, url: str = r'http://books.toscrape.com/'):
+def parse(num_page, url):
 
     data = []
 
     with sync_playwright() as p:
 
-        browser = p.chromium.launch(
-            channel='msedge',
-            # headless=False
-        )
+        browser = p.chromium.launch(channel='msedge')
         main_page = browser.new_page()
         main_page.goto(url)
 
@@ -35,7 +29,7 @@ def parsing(num_page: int = 3, url: str = r'http://books.toscrape.com/'):
                     stock_el = el.query_selector('p.instock.availability')
                     stock = stock_el.inner_text().strip() if stock_el else 'N/A'
                     
-                    # ссылка на личную страницу
+                    # ссылка на личную страницу книги
                     book_url = tag.get_attribute('href')
 
                     if book_url:
@@ -56,23 +50,4 @@ def parsing(num_page: int = 3, url: str = r'http://books.toscrape.com/'):
                 next_page.click()
                 main_page.wait_for_load_state('networkidle')
 
-        browser.close()
-
     return data
-
-
-def data2csv(data, output: str = 'result.csv'):
-
-    with open(output, 'w', encoding='utf-8', newline='') as file:
-
-        csv_file = csv.DictWriter(file, fieldnames=['name', 'price', 'availability', 'url'])
-
-        csv_file.writeheader()
-        csv_file.writerows(data)
-
-def main():
-    data2csv(parsing())
-
-
-if __name__ == '__main__':
-      main()
