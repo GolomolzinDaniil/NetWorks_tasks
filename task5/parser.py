@@ -21,7 +21,6 @@ def parse(num_page, url):
                     stock_el = el.query_selector('p.instock.availability')
                     stock = stock_el.inner_text().strip() if stock_el else 'N/A'
                     
-                    # ссылка на личную страницу книги
                     book_url = tag.get_attribute('href')
                     if book_url:
                         inside = '' if book_url.startswith('catalogue/') else 'catalogue/'
