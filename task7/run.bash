@@ -17,4 +17,5 @@ docker run -d \
     -p 80:80 \
     -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf:ro \
     -v $(pwd)/placeholder.html:/usr/share/nginx/html/placeholder.html:ro \
+    -v $(pwd)/ip.txt:/etc/nginx/ip.txt:ro \
     nginx:alpine
